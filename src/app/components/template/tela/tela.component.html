@@ -1,0 +1,31 @@
+<div name='cont'
+ class='content'
+ >
+<span>
+    <p>
+        {{indice}}
+    </p>
+</span>
+
+<div class="conteudo">
+   <mat-grid-list cols=9 
+    md-gutter="8px" rowHeight="38" class="clgeral">
+    <mat-grid-tile *ngFor="let y of this.srv.tabuleiro.tab;
+    let i=index" class='celula'
+    >
+    <div class="entorno" 
+    *ngIf='this.srv.tabuleiro.tab[i].estado < 3'
+    >
+    <app-peca            
+        [obj]='this.srv.tabuleiro.tab[i]'
+        [ngClass]='{cl1:this.srv.tabuleiro.tab[i].borda}' 
+        (click)="onclick(i)"
+        (mouseover)='onrover(i)'
+        (mouseout)='onout(i)'        
+        >
+    </app-peca>
+    </div>
+    </mat-grid-tile>
+    </mat-grid-list>
+   </div>
+</div>

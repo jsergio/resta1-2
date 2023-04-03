@@ -1,0 +1,32 @@
+.conteudo{
+    display: flex;
+    /* justify-content: center; */
+    text-align: center;
+    margin: 10pt;
+    /* margin-top: 30%; */
+    /* flex-wrap: nowrap; */
+    /* justify-self: end; */
+    /* width: 60%; */
+    /* height: 100%; */
+    /* background-color:#cce9cc */
+    color: white
+    ;
+}
+.orienta{
+    display: block;
+    /* flex-flow: column; */
+    /* justify-items: flex-start; */
+    /* -ms-flex-align: start; */
+    float: left;
+    text-align: left;
+    /* justify-items: flex-start; */
+    /* flex-flow: row; */
+    /* margin-left: 0; */
+  }
+  .orienta2{
+    display: flex;
+    justify-items: flex-start;
+    flex-flow: column;
+    margin-left: 0;
+  }
+  

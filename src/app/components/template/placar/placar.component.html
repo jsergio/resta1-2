@@ -1,0 +1,49 @@
+<span *ngIf="this.srv.dizFase == 'inicio'">
+<!-- <ng-template #thenblock> -->
+<div class="conteudo">
+    <h2 style="text-align: center">
+        Bem Vindo ao jogo
+        <p>
+            Resta 1
+        </p>
+    </h2>
+    <h2  style="text-align: center">
+        Restam: "{{this.srv.numpecas}}"   Pe&ccedil;as
+    </h2>
+    <!-- <h2 *ngIf="this.srv.terminou">
+        Terminou
+    </h2>  -->
+</div>
+<!-- </ng-template> -->
+</span>
+<span *ngIf="this.srv.dizFase == 'meio'">
+<div class="conteudo">
+    <h2 style="text-align: center">
+        Muito Bem !
+        <p>
+            Continue Jogando
+        </p>
+    </h2>
+    <h2  style="text-align: center">
+        Restam Ainda: "{{this.srv.numpecas}}"   Pe&ccedil;as
+    </h2>
+</div>    
+</span>
+<span *ngIf="this.srv.dizFase == 'fim'">
+    <div class="conteudo">
+        <h2 style="text-align: center">
+            Parab&eacute;ns !
+        </h2>    
+
+        <h2 style="text-align: center">
+            Terminou.
+        </h2>    
+        <h2  style="text-align: center">
+            Restaram Finalmente: "{{this.srv.numpecas}}"   Pe&ccedil;as
+        </h2>
+    </div>    
+    </span>
+    
+
+<!-- <span>`Ta Ta`</span> -->
+<!-- <span  (click)='this.pagina()' [innerHtml]='this.pg.paginas[0] | safeHtml' style="color:white ;"></span> -->
