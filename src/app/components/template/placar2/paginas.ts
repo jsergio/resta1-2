@@ -7,7 +7,7 @@ const pg0:string =
   <br>
   <h3>
      <h3 style="text-align: left">
-     Pecisa de Dois Cliques !
+     Precisa de Dois Cliques !
   </h3>
          <p style="text-align:left">
            Passo 1 - Clicar na pe&ccedil;a para marcar,
@@ -17,10 +17,7 @@ const pg0:string =
          </p>
          <p>
          <br>
-         Mais .. - 
-         
-
-                          
+         Mais ..                           
          </p>
          
  </h3>
@@ -29,8 +26,8 @@ const pg0:string =
 </div>
 <button (click)="this.pagina()">Clique aqui</button>
 ` 
-const  pg1:string =     `
-Pagina 2
+const  pg1:string =
+`
 <div class="conteudo">
 
   <div class="orienta">
@@ -56,7 +53,7 @@ Pagina 2
            </p>
            <p>
            <br>
-           Mais .. - 
+           Mais  
            </p>
            
    </h3>
@@ -64,25 +61,38 @@ Pagina 2
    
 </div>
 <button (click)="this.pagina()">Clique aqui</button>
-` 
+`
+const  pg2:string = 
+`<div class="conteudo">
 
-
+  <div class="orienta">
+   <h2 style="text-align: center">
+      No in&iacute;o do jogo:
+   </h2>
+   <br>
+       Tecle 0 para pegar um <strong>jogo bom </strong>.  <br>
+       ou<br>
+       Tecle 1 para pegar <strng>&uacute;timo jogo jogado</strong>. 
+       <br><br>Em seguida clique a seta direita  --> para jogar
+   </div>
+   
+</div>
+<button (click)="this.pagina()">Clique aqui</button>
+`
 
 export class Pagina{
   paginas:string[]=[]
   atual:number = 0
 
   constructor(){
-     this.paginas=[pg0,pg1]
+     this.paginas=[pg0,pg1,pg2]
 }
 
-proximaPg():void{this.atual++}
+proximaPg():void{this.atual<2 ? this.atual++:this.atual=0 }
+
 antPG(): void{
-    if(this.atual===0)
-         this.atual = 1
-    else
-         this.atual = this.atual--
-    }
+    (this.atual===0) ?this.atual = 2:this.atual-- }
+
  pegaMenssagem():string{
     return this.paginas[this.atual]
  }   

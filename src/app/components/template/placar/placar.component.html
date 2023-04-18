@@ -1,4 +1,4 @@
-<span *ngIf="this.srv.dizFase == 'inicio'">
+<span *ngIf="this.srv.dizFase === 'inicio'">
 <!-- <ng-template #thenblock> -->
 <div class="conteudo">
     <h2 style="text-align: center">
@@ -16,7 +16,7 @@
 </div>
 <!-- </ng-template> -->
 </span>
-<span *ngIf="this.srv.dizFase == 'meio'">
+<span *ngIf="this.srv.dizFase === 'meio'">
 <div class="conteudo">
     <h2 style="text-align: center">
         Muito Bem !
@@ -29,7 +29,7 @@
     </h2>
 </div>    
 </span>
-<span *ngIf="this.srv.dizFase == 'fim'">
+<span *ngIf="this.srv.dizFase === 'fim'">
     <div class="conteudo">
         <h2 style="text-align: center">
             Parab&eacute;ns !

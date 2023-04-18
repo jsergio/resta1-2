@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Peca } from 'src/app/model/peca';
 import { Info, pp } from 'src/app/model/aux';
 import { Tabuleiro } from 'src/app/model/tabuleiro';
-// import { type } from 'os';
+import { Pilha } from 'src/app/model/pilha.service';
+// import { log } from 'console';
 
 /*
 estado == 0 peca
@@ -26,103 +27,104 @@ export class JogoService {
   tabuleiro: Tabuleiro = new Tabuleiro()
 
   menssagem = '<h2>Alo!</h2><h2>Tudo Bem?</h2><h2>Estou Aqui!para jogar!</h2>'
- 
+
   //  '<h2>Alo!</h2><h2>Tudo Bem?</h2><h2>Estou Aqui!para jogar!</h2>'
   numpecas: number = 44
   direcao: string = 'nenhuma'
   strpeca: string = 'assets/img/peca1C.png'
   strvazio: string = 'assets/img/pecax2.png'
   terminou: boolean = false
+  // jogaveis: Peca[] = []
 
-  pilhajogadas: (Info | undefined)[] = [] //[{id:0,direcao:'nenhuma'}]
-  pilhasalvas: (Info | undefined)[] = []
+  pilhajogadas: Pilha = new Pilha
+  pilhasalvas: Pilha = new Pilha
+  pilhamelhor: Pilha = new Pilha
 
   melhor: number = 44
 
-  pilhamelhor = pp //definido no arquivo aux.ts na pasta model.
 
+  // pilhamelhor = pp //definido no arquivo aux.ts na pasta model.
+  constructor(private stg: StorageService) {
+    this.pilhamelhor.cp(pp)
+    console.log('PILHA MELHOR',this.pilhamelhor.pilha);
+    
+    this.pilhamelhor.invertePilha()
+    console.log('PILHA MELHOR INVERTIDA',this.tabuleiro);
+  }
+
+  tiramarcas(): void {
+    this.tabuleiro.vddTab.forEach((element) => {
+      if (element.estado === 2) {
+        element.borda = false
+        element.stat = 0
+        element.corBorda = 'nada'
+      }
+    })
+    // this.jogaveis = []
+    return
+  }
 
 
   pegaUltima(): void {
     // let tmp:any[]=[]
-    let tmp2: Info[] = []
-    this.menssagem = ''
-    this.menssagem = '<h2> Peguei Ultima </h2>'
-    if (tmp2 = this.stg.get('UltimoJogo')) {
-      // console.log('P = ',tmp2)
-      // this.menssagem += "Ultima = "+JSON.stringify(tmp2) 
-      if (tmp2) {
-        {
-          this.secapilha(this.pilhasalvas)
-          while (tmp2.length > 0) {
-            const tt: Info | undefined = tmp2.pop()
-            tt !== undefined ? this.pilhasalvas.push(tt) : this.menssagem = 'Erro'
-          }
-          // console.log('Pegou ',this.pilhasalvas)
-        }
-        // else {  
-        //   this.pilhasalvas=[]
-        //   console.log('Problemas ')
-        // // this.copiapilha(this.pilhamelhor,this.pilhasalvas)
-        // }
-        this.numpecas = 44
-        this.menssagem = '<h2> Tudo bem </h2> ' + this.pilhasalvas.length
-        //  this.menssagem += '  '+ this.numpecas
-      }
-    } else {
+    // let tmp2: Info[] = []
+
+    // tmp2:Pilha = new Pilha
+    let tmp0: Info[] = []
+
+    // this.menssagem = ''
+
+    if (tmp0 = this.stg.get('UltimoJogo')) {
+      // let tt: Info | undefined;
+      // while (tmp0) {
+      //   tt = tmp0.pop()
+      //   if (tt !== undefined)
+      //     this.pilhasalvas.pilha.push(tt)
+      // }
+      this.pilhasalvas.cp(tmp0)
+      console.log('PILHA ULTIMO JOGO',this.pilhasalvas);
+      
+      this.numpecas = 44
+      this.menssagem = '<h2> Tudo bem </h2> '
+      this.menssagem += '<h2> Peguei Ultima </h2>'
+    }
+    // else {  
+    //   this.pilhasalvas=[]
+    //   console.log('Problemas ')
+    // // this.copiapilha(this.pilhamelhor,this.pilhasalvas)
+    // }
+    //  this.menssagem += '  '+ this.numpecas
+    else {
       this.menssagem = '<h2> Nada de Ultim0Jogo </h2>'
     }
     return
   }
 
 
-  constructor(private stg: StorageService) { }
 
-  iniciar() {
-    if (this.melhor = this.stg.get('melhorresta')) { }
-    else {
+
+  iniciar(): void {
+    // if (this.melhor = this.stg.get('melhorresta')) { }
+    //else 
+    {
       this.melhor = 20 //numero chutado
     }
     this.numpecas = 44
-    this.dizFase = 'inicio'  
-  
+    this.dizFase = 'inicio'
+    return
   }
 
-  mudaFase(p: FaseJogo ):void{
-    if(p === 'inicio')
-       this.dizFase = 'meio'
+  mudaFase(p: FaseJogo): void {
+    if (p === 'inicio')
+      this.dizFase = 'meio'
     else {
-       if(this.terminou)
-         this.dizFase = 'fim'
-       else
-         this.dizFase = 'meio'  
+      if (this.terminou)
+        this.dizFase = 'fim'
+      else
+        this.dizFase = 'meio'
     }
   }
-  ////////////////////////////////////////////////////////////
-
-  // gravapilha(p:any):boolean{
-  //   // const obj={"melhorjogo",p}
-  //   if(this.stg.remove('melhorjogo')){
-  //     console.log('MelhorJogo Removido!')
-  //   }
-  //   if(this.stg.remove('melhorresta')){
-  //     console.log('Restamelhor Removido!')
-  //   }
-
-  //   if(this.stg.set('melhorjogo',p)){
-  //     console.log('MelhorJogo',JSON.stringify(p),p.length)
-  //     if(this.stg.set('melhorresta',this.melhor)){
-  //       console.log('MelhorResta',this.melhor)
-  //     }
-  //     return true
-  //   }
-  //   return false
-  // }
-
-
-
-
-
+  
   escolhepilha(i: number) {
     if (i === 0)
       return [this.pilhajogadas, this.pilhasalvas]
@@ -134,44 +136,30 @@ export class JogoService {
   }
 
 
-  secapilha(p: any[]): void {
-    while (p.length > 0)
-      p.pop()
-    return
-  }
-
+  
   iniciojogo(i: number): void {
+    //  i = i
     if (i === 1) {
       // console.log('Pilha Tamanho',this.pilhasalvas.length)
-      while (this.pilhasalvas.length > 0)
+      while (this.pilhasalvas.tamanho() > 0)
         this.desjoga(1)
     } else {
-      while (this.pilhajogadas.length > 0)
+      while (this.pilhajogadas.tamanho() > 0)
         this.desjoga(0)
-      this.numpecas = 44
-      this.terminou = false
-      this.melhor = this.stg.get('melhorresta')
-      this.dizFase = 'inicio'
     }
-    // return
+    // this.pilhajogadas.secapilha()
+    // this.pilhasalvas.secapilha()
+    this.numpecas = 44
+    this.terminou = false
+    this.melhor = this.stg.get('melhorresta')
+    this.dizFase = 'inicio'
   }
 
   pegamelhor(): void {
-    let tmp: Info[] = this.pilhamelhor
-    // if(tmp=this.stg.get("melhorjogo"))
-    {
-      //  this.pilhasalvas=[]
-      this.secapilha(this.pilhasalvas)
-      while (tmp.length > 0) {
-        this.pilhasalvas.push(tmp.pop())
-      }
-      console.log('Pegou ', this.pilhasalvas)
-    }
-    // else {  
-    //   this.pilhasalvas=[]
-    //   console.log('Problemas ')
-    // // this.copiapilha(this.pilhamelhor,this.pilhasalvas)
-    // }
+
+    console.log('PILHA MELHOR ANTES INVERTERA', this.pilhasalvas)
+    this.pilhasalvas.cp(this.pilhamelhor.pilha)
+    // console.log('PILHASALVA  FINAL ', this.pilhasalvas)
     this.numpecas = 44
     return
   }
@@ -180,15 +168,19 @@ export class JogoService {
 
     if (this.numpecas < 10) {
       this.terminou = !this.veseterminou()
-      console.log('ENTROU', this.terminou, 'MELHOR', this.melhor)
+      // console.log('ENTROU', this.terminou, 'MELHOR', this.melhor)
       if (this.terminou) {
         // if(this.numpecas<=this.melhor)
-        { 
-          console.log('ENTROU1', this.terminou, 'MELHOR', this.melhor)
+        {
+          // console.log('ENTROU1', this.terminou, 'MELHOR', this.melhor)
           this.dizFase = 'fim'
           this.melhor = this.numpecas
+          this.menssagem += `<p>FIM</p>`
+          // console.log('PILHA GRAVADA',this.pilhajogadas)
+          
+          this.gravapilha(this.pilhajogadas.pilha)``
           // this.copiapilha(this.pilhasalvas,this.pilhamelhor)
-          this.gravapilha(this.pilhajogadas) //pilhajogadas contem Info das jogadas dadas
+          // this.gravapilha(this.pilhajogadas) //pilhajogadas contem Info das jogadas dadas
         }
       }
     }
@@ -196,45 +188,29 @@ export class JogoService {
   }
 
   desjoga(i: number) { //i igual a 0 desjoga; i igual a 1 joga
-    const p1 = this.escolhepilha(i)[0]//(i===0)?this.pilhajogadas:this.pilhasalvas
-    const p2 = this.escolhepilha(i)[1]  //(i===0)?this.pilhasalvas:this.pilhajogadas
-
-    if (p1.length == 0)
+    const p1: Pilha = this.escolhepilha(i)[0]//(i===0)?this.pilhajogadas:this.pilhasalvas
+    const p2: Pilha = this.escolhepilha(i)[1]  //(i===0)?this.pilhasalvas:this.pilhajogadas
+    //as pilhas conteem {objeto,direcao} para desfazer
+    if (p1.tamanho() == 0)
       return
     else {
-      let obj: Peca
-      const tmp = p1.pop()  //Tira de p1
-      p2.push(tmp)        //e coloca em p2
-      if (tmp?.id !== undefined) {
-        obj = this.tabuleiro.tab[tmp.id]
+      // let obj: Peca
+      const tmp: Info | undefined = p1.pilha.pop()  //Tira de p1
+      if (tmp !== undefined)
+        p2.pilha.push(tmp)        //e coloca em p2
+      if (tmp?.id !== undefined && tmp.direcao !== undefined) {
+        const direcao: DataType = tmp?.direcao
+        const obj = this.tabuleiro.tab[tmp.id]
+
         this.tabuleiro.poepeca({ obj, i }) //acende ou torna buraco na posicao tmp.id
+        this.tabuleiro.desjoga2({ dd: direcao, obj, i })//realisa para duas outras visinhas
 
-        //  console.log('Direcao',tmp.direcao)
-
-        switch (tmp.direcao) {
-          case 'esq':
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id + 1], i: 1 - i })
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id + 2], i: 1 - i })
-            break
-          case 'dir':
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id - 1], i: 1 - i })
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id - 2], i: 1 - i })
-            break
-          case 'cima':
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id + 9], i: 1 - i })
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id + 18], i: 1 - i })
-            break
-          case 'baixo':
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id - 9], i: 1 - i })
-            this.tabuleiro.poepeca({ obj: this.tabuleiro.tab[tmp.id - 18], i: 1 - i })
-            break
-        }
         this.mudaFase(this.dizFase)
-        if (i == 0)
-          this.numpecas++
+        if (i == 0) //se andou para traz
+          this.numpecas++ //recupera numero de pecas
         else {
-          this.numpecas--
-          this.checatermino()
+          this.numpecas-- //diminui numero de pecas
+          this.checatermino() //ver se terminou
         }
       }
     }
@@ -244,23 +220,25 @@ export class JogoService {
 
     let result = false
 
-    const tmp = this.tabuleiro.tab.filter(ele => ele.estado === 0)
+    const tmp: Peca[] = this.tabuleiro.tab.filter(ele => ele.estado === 0)
 
     // this.pilhafiltrada = tmp
 
     tmp.forEach(
       ele => result = this.tabuleiro.marcavel({ obj: ele }) || result
     )
-    console.log('FALTAM AGORA', tmp, 'TAMANHO ', tmp.length, 'Result', result)
-
+    //tmp.forEach igual a true se pelo menos um elemento de tmp 'eh marcavel
+    //tmp.forEach eh falso se todos os elementos de tmp nao sao marcaveis
+    // console.log('FALTAM AGORA', tmp, 'TAMANHO ', tmp.length, 'Result', result)
+    this.menssagem = `<p>TAMANHO: ${tmp.length}</p> <p> RESULTADO ${result}</p>`
     return result
   }
 
   distancia(p1: Peca, p2: Peca): number {
-    const l1: number = Math.floor(p1.id / 9)
-    const l2: number = Math.floor(p2.id / 9)
-    const c1: number = p1.id % 9
-    const c2: number = p2.id % 9
+    const l1: number = p1.linha()  //Math.floor(p1.id / 9)
+    const l2: number = p2.linha()      //Math.floor(p2.id / 9)
+    const c1: number = p1.col()     //p1.id % 9
+    const c2: number = p2.col()    //p2.id % 9
 
     if (l1 === l2)
       return Math.abs(c1 - c2)
@@ -284,20 +262,18 @@ export class JogoService {
     const distancia: number = this.tabuleiro.distancia({ p1: obj, p2: this.tabuleiro.marcado })
 
     const cond: boolean = (this.tabuleiro.marcado.stat === 1) && (distancia === 2) && (obj.estado === 2)
-    //obj anterior marcado e distancia ===2 e obj eh buraco
-    // cond = cond && (obj.estado === 2)
+    //essa cond diz que anterior esta marcado, eh buraco e distancia do marcado eh 2
 
-    if (cond) { //&& ((lin === linant) || (col === colant))) { 
-      //se eh um buraco e anterior marcado
+    if (cond) {
       const dd: DataType = this.tabuleiro.getDir({ num1: obj.id, num2: this.tabuleiro.marcado.id })
+      //dd eh a direcao entre obj e obj marcado, esquerda,direita,cima ou baixo
+      const tmp: Info = { id: obj.id, direcao: dd }
 
-      const tmp = { id: obj.id, direcao: dd }
+      this.pilhasalvas.secapilha() //sempre que joga secapilha pilhasalvas
 
-      this.secapilha(this.pilhasalvas)
+      this.pilhajogadas.pilha.push(tmp)
 
-      this.pilhajogadas.push(tmp)
-
-      obj.estado = 0
+      obj.estado = 0 //Transforma buraco em peca
       obj.url = this.strpeca
       this.numpecas--
 
@@ -308,10 +284,10 @@ export class JogoService {
       this.tabuleiro.marcado.url = this.strvazio
 
 
-      this.tabuleiro.mova({ l: lin, c: col, dd: dd })
-      this.checatermino()
+      this.tabuleiro.mova({ l: lin, c: col, dd: dd }) //isso efetivamente realiza a jogada
+      this.checatermino() //ver se jogo terminou
     }
-    this.dizFase = 'meio'
+    this.mudaFase(this.dizFase)
   }
 
 
@@ -328,7 +304,7 @@ export class JogoService {
       this.tabuleiro.marca({ obj })
       // return
     } else {
-         this.joga(obj)
+      this.joga(obj)
       // return
     }
   }
@@ -339,7 +315,7 @@ export class JogoService {
     for(let i=0;i<p2.length();i++)
       p1.push(p2[i])
   }
-*/
+  */
 
 
   gravapilha(p: any): any {

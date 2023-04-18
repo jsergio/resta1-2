@@ -1,9 +1,13 @@
+// import { Pilha  } from "./pilha.service";
+
+type DataType = 'esq' | 'dir' | 'cima' | 'baixo' | 'erro';
 export interface Info {
     id?: number,
-    direcao?: string
+    direcao?: DataType
   }
-
-    export const pp  = [
+    // const pp:Pilha = new Pilha()
+    
+    export const pp:Info[] = [
     {id: 40, direcao: 'esq'},
     {id: 41, direcao: 'baixo'},
     {id: 23, direcao: 'baixo'},
@@ -46,3 +50,4 @@ export interface Info {
     {id: 57, direcao: 'cima'},
     {id: 75, direcao: 'esq'}
   ]
+  

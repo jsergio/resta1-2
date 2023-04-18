@@ -17,6 +17,9 @@
 .cl2{
     border: 0.2em solid blue;
 }
+.cl3{
+    border: 0.2em solid #2fdcffef;
+}
 
 
 /* mat-card img{

@@ -20,12 +20,12 @@ export class Safe {
 })
 
 export class Placar2Component implements OnInit{
-  pg: Pagina|null = null
-
+  pg: Pagina = new Pagina
+  
   constructor(public srv:JogoService) { }
   
   ngOnInit(): void {
-    this.pg = new Pagina
+    // this.pg = new Pagina
     // document..innerHTML =`<button class="tag" onclick="alert('Button Clicked!')">Text</button>`
     
     const tt:string = this.pg.paginas[this.pg.atual]
@@ -35,15 +35,19 @@ export class Placar2Component implements OnInit{
   }
  
   pagina():void{
-    if(this.pg) 
-    if(this.pg.atual === 0){
+    // const ultima = 2
+    // if(this.pg){ 
+    // if(this.pg.atual === 0){
+      
       this.pg.proximaPg()
-      this.srv.menssagem = this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
-    }  else {
-      this.pg.atual = 0
-      this.srv.menssagem = this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
-    }
-    } 
+      this.srv.menssagem =  this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
 
+      // this.pg.atual++
+    }  
+    //  else {
+      // this.srv.menssagem = `${this.pg.atual}` + this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
 
-  }
+    // } 
+    // this.srv.menssagem = `${this.pg.atual}` + this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
+  } 
+// }

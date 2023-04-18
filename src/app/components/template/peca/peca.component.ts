@@ -1,30 +1,28 @@
+import { Peca } from 'src/app/model/peca';
 import { JogoService } from './../../services/jogo.service';
 import { Component, OnInit, Input  } from '@angular/core';
 
-export interface Peca{
-  id:number,
-  url:string,
-  stat:number,
-  estado:number,
-  borda:boolean
-}
+// export interface Peca{
+//   id:number,
+//   url:string,
+//   stat:number,
+//   estado:number,
+//   borda:boolean
+// }
 @Component({
   selector: 'app-peca',
   templateUrl: './peca.component.html',
   styleUrls: ['./peca.component.css']
 })
+
 export class PecaComponent implements OnInit {
-  @Input() linha=0
-  @Input() coluna=0
-  @Input() obj:Peca=
-    {
-      id:0,
-      url:'assets/img/peca1C.png',
-      stat:1,
-      estado:0,
-      borda:false
-    }
-  
+  // @Input() linha=0
+  // @Input() coluna=0
+
+    @Input() obj: Peca= new Peca(0,this.srv.strpeca,0,0,false)
+    @Input() linha: number=this.obj.linha()
+    @Input() coluna: number=this.obj.col()
+    
   // borda:boolean=false
   est:number[]=[]
   
