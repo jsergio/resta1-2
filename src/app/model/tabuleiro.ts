@@ -1,6 +1,5 @@
 import { Peca } from "./peca";
 
-
 type DataType = 'esq' | 'dir' | 'cima' | 'baixo' | 'erro';
 
 const fesq = (l: number, c: number) => {
@@ -16,8 +15,6 @@ const fbaixo = (l: number, c: number) => {
   return (l - 1) * 9 + c
 }
 
-// const objCoord = { 'esq': fesq, 'dir': fdir, 'cima': fcima, 'baixo': fbaixo }
-
 const getDataSelector: Record<DataType, (l: number, c: number) => number> = {
   'esq': fesq,
   'dir': fdir,
@@ -29,17 +26,16 @@ const getDataSelector: Record<DataType, (l: number, c: number) => number> = {
 function dataHandlerFunction(dd: DataType, l: number, c: number): number {
   return getDataSelector[dd](l, c);
 }
-
-
 export class Tabuleiro {
 
   tab: Peca[] = []
-  vddTab: Peca[] = []
-  marcado: Peca = new Peca()
+  vddTab: Peca[]
+  marcado: Peca
 
   constructor() {
     this.geraTab()
     this.vddTab = this.pegaVdd()
+    this.marcado = new Peca()
     // console.log('VDD ',this.vddTab)
   }
 
@@ -58,8 +54,8 @@ export class Tabuleiro {
 
     if (obj.estado > 1)
       return []
-// os elementos de tmp distam de obj 2, sao buraco e o vizinho eh peca
-    let tmp: Peca[] =  
+    // os elementos de tmp distam de obj 2, sao buraco e o vizinho eh peca
+    let tmp: Peca[] =
       this.tab.filter(
         (element) => {
           const direcao: DataType = this.getDir({ num1: element.id, num2: i })
@@ -95,7 +91,7 @@ export class Tabuleiro {
 
     const x: number = dataHandlerFunction(dd, l, c)   //objCoord[dd](l, c)
 
-    this.tab[x].estado = 2  //a direita - buraco
+    this.tab[x].estado = 2  //o vizinho se torna buraco
     this.tab[x].url = this.strvazio
   }
 
@@ -129,7 +125,6 @@ export class Tabuleiro {
     return (lin < 3 || lin > 5) && (col < 3 || col > 5)
   }
 
-
   mesmaLinha({ num1, num2 }: { num1: number; num2: number; }): boolean {
     return this.linha({ i: num1 }) === this.linha({ i: num2 })
   }
@@ -139,12 +134,6 @@ export class Tabuleiro {
   }
 
   getDir({ num1, num2 }: { num1: number; num2: number; }): DataType {
-    // const ob1: Peca = this.tab[num1]
-    // const ob2: Peca = this.tab[num2]
-
-    // if ( this.distancia({p1:ob1, p2:ob2}))
-    //    return 'erro'    
-
     if (this.mesmaLinha({ num1, num2 })) {
       {
         if (num1 < num2)
@@ -161,7 +150,6 @@ export class Tabuleiro {
         else
           if (num1 > num2)
             return 'baixo'
-        // }
       }
     return 'erro'
   }
@@ -181,7 +169,6 @@ export class Tabuleiro {
     return -1
   }
 
-
   marca({ obj }: { obj: Peca; }): void {
     if (obj.id != this.marcado.id) //Se obj eh diferente de marcado
     {
@@ -191,22 +178,16 @@ export class Tabuleiro {
     if (obj.stat == 0) { //Se o obj nao esta marcado
       obj.stat = 1  //Marca obj
       obj.borda = true
-      // console.log('Marcado ', obj, this.marcado)
       this.marcado = obj //coloca obj no ludar do marcado e sai
-      // console.log('Marcado ',obj)
       return
     } else { //dismarca obj
 
       obj.stat = 0  //Nesse caso obj esta ja marcado pois stat eh diferente de 0 
       obj.borda = false
       obj.corBorda = 'nada'
-      // this.marcado=obj
-      // console.log('Dismarcado ', obj, this.marcado)
     }
-
   }
   emcima({ obj }: { obj: Peca; }): boolean { //O objeto eh marcavel por cima
-    // const ind: number = obj.id
     const lin: number = obj.linha() //Math.floor(ind / 9)
     const col: number = obj.col()   //ind % 9
 
@@ -215,49 +196,34 @@ export class Tabuleiro {
   }
 
   embaixo({ obj }: { obj: Peca; }): boolean { //O objeto eh marcavel por baixo
-    // let result:boolean = false
-
-    // const ind: number = obj.id
     const lin: number = obj.linha() //Math.floor(ind / 9)
     const col: number = obj.col()   //ind % 9
 
     return (lin < 7) && (this.tab[(lin + 1) * 9 + col].estado === 0)
       && (this.tab[(lin + 2) * 9 + col].estado === 2)
 
-    // return result
   }
 
   aesquerda({ obj }: { obj: Peca; }): boolean { //O objeto eh marcavel aesquerda
-    // let result:boolean = false
-
-    // const ind: number = obj.id
     const lin: number = obj.linha()  //Math.floor(ind / 9)
     const col: number = obj.col()    //ind % 9
 
     return (col > 1) && (this.tab[lin * 9 + (col - 1)].estado === 0)
       && (this.tab[lin * 9 + (col - 2)].estado === 2)
 
-    // return result
   }
 
   adireita({ obj }: { obj: Peca; }): boolean { //O objeto eh marcavel direita
-    // let result:boolean = false
-
-    // const ind: number = obj.id
     const lin: number = obj.linha()   //Math.floor(ind / 9)
     const col: number = obj.col()     //ind % 9
 
     return (col < 7) && (this.tab[lin * 9 + (col + 1)].estado === 0)
       && (this.tab[lin * 9 + (col + 2)].estado === 2)
-
-    // return result
   }
 
   marcavel({ obj }: { obj: Peca }): boolean {
-
     const result: boolean = this.aesquerda({ obj }) || this.adireita({ obj }) || this.emcima({ obj }) || this.embaixo({ obj })
     const cond: boolean = ((obj.stat === 0) && (obj.estado === 0))
-    // alert(obj)
     return result && cond
   }
 
@@ -273,8 +239,3 @@ export class Tabuleiro {
     return
   }
 }
-
-
-
-
-

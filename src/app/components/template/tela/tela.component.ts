@@ -1,32 +1,10 @@
-// import { StorageService } from './../../services/storage.service';
 import { Peca } from 'src/app/model/peca';
 import { JogoService } from '../../services/jogo.service';
 import { Component, OnInit } from '@angular/core';
 import { Tabuleiro } from 'src/app/model/tabuleiro';
-// import { log } from 'console';
-// import { AnyRecord } from 'dns';
 
 export const sleep = async (waitTime: number) =>
   new Promise(resolve => setTimeout(resolve, waitTime));
-
-
-// Type Mobj = { obj:Peca }
-
-// interface Mobj{obj?:Peca;}
-
-// export interface Peca{
-//   id?:number,
-//   url:string,
-//   stat:number,
-//   estado:number,
-//   borda:boolean
-// }
-
-// export enum KEY_CODE {
-//   RIGHT_ARROW = 39,
-//   LEFT_ARROW = 37
-// }
-
 
 @Component({
   selector: 'app-tela',
@@ -72,9 +50,16 @@ export class TelaComponent implements OnInit {
       this.srv.pegaUltima() //Pega ultimo Jogo.
       //console.log('Muito Bom',this.srv.pilhajogadas)
     }
-    // console.log('OK')
-    // console.log('OK De Novo',e.code)
+    if (e.code === 'KeyR') {
+      // this.srv.menssagem = '<h2>Digitei Digit1</h2>'
+      this.srv.pilhajogadas.secapilha()
+      this.srv.pilhasalvas.secapilha()
+      this.srv.pilhamelhor.secapilha()
+      this.srv.iniciatudo() //reinica Jogo
+      //console.log('Muito Bom',this.srv.pilhajogadas)
+    }
   }
+
   onout(i: number) {
     const euObj: Peca = this.srv.tabuleiro.tab[i]
 
@@ -99,7 +84,6 @@ export class TelaComponent implements OnInit {
           element.corBorda = 'amarelo'
         }
       })
-      // this.srv.jogaveis = tmp
     }
     
     const waitSeconds: (ms: number, fp: Func) => void = async (ms: number, fp: Func) => {
@@ -108,23 +92,9 @@ export class TelaComponent implements OnInit {
       this.srv.tiramarcas()
       return
     }
+    
+    if ((euObj.estado < 2) && (linkTab.marcavel({ obj: euObj }))) {
 
-    if (euObj.estado < 2) {
-
-      // const tmp: Peca[] = linkTab.jogavel(i)
-      // console.log('TMP ',tmp);
-      // console.log('JOGAVEL1 ',i,tmp)
-      // this.srv.tiramarcas()
-      // tmp.forEach((element) => {
-      //   // const flag:boolean = (element.stat == 0) //nao foi marcado
-      //   if (element.borda === false) {
-      //     element.borda = true
-      //     element.corBorda = 'amarelo'
-      //   }
-      // })
-      // console.log('TMP2 ',tmp);
-
-      // this.srv.jogaveis = tmp  //guarda tmp em srv.jogaveis
       this.srv.tiramarcas()
       if (linkTab.marcavel({ obj: euObj })) {
         euObj.borda = true
@@ -142,41 +112,11 @@ export class TelaComponent implements OnInit {
           euObj.corBorda = 'nada'
         }
       }
-
-
-
-
-
-
-
-
-      // if(linkTab.marcavel({obj:euObj})) //marca o proprio obj
-      //  {
-      // var elemento = document.getElementById(this.xi[3])
-      // euObj.borda = true
-      // console.log('Elemento = ',elemento)
-      // if(elemento)
-      //  elemento.style.border = '2pt solid blue'  
     }
-    // alert(JSON.stringify([euObj,typeof(euObj)]))
-    // if(this.srv.tabuleiro.marcavel(euObj))
-    //  alert(i)
-    // }
   }
 
   ngOnInit(): void {
     document.addEventListener('keydown', ev => this.onkeydown(ev))
     this.srv.iniciar()
   }
-
-
-  // ngOnInit(): void {
-  //   // const cont=document.getElementsByName('cont')
-  //   // for(let i: number=0;i<81;i++){
-  //     // this.xi[i] = ''+i
-  //   // }
-  //   document.addEventListener('keydown', ev => this.onkeydown(ev))
-  //   this.srv.iniciar()
-  //   // console.log(typeof(document),cont)
-  // }
 }
