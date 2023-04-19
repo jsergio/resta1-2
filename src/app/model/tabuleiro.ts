@@ -18,7 +18,7 @@ const fbaixo = (l: number, c: number) => {
 
 // const objCoord = { 'esq': fesq, 'dir': fdir, 'cima': fcima, 'baixo': fbaixo }
 
-const getDataSelector: Record<DataType, (l:number,c:number) => number> = {
+const getDataSelector: Record<DataType, (l: number, c: number) => number> = {
   'esq': fesq,
   'dir': fdir,
   'cima': fcima,
@@ -32,11 +32,11 @@ function dataHandlerFunction(dd: DataType, l: number, c: number): number {
 
 
 export class Tabuleiro {
-  
+
   tab: Peca[] = []
-  vddTab: Peca[] = []  
+  vddTab: Peca[] = []
   marcado: Peca = new Peca()
-  
+
   constructor() {
     this.geraTab()
     this.vddTab = this.pegaVdd()
@@ -47,109 +47,79 @@ export class Tabuleiro {
   strvazio: string = 'assets/img/pecax2.png'
 
   pegaVdd(): Peca[] {
-    const tmp: Peca[] = 
-    this.tab.filter((element: Peca) => { 
-      const l:number = element.linha()
-      const c:number = element.col()
-      const cond: boolean = (((l<3) || (l>5)) && ((c<3) || (c>5)))
-      return !cond  //esse return eh do filter
-    })
-    // console.log('VDD',tmp)
+    const tmp: Peca[] =
+      this.tab.filter(el => { return !this.inTab({ i: el.id }) })
     return tmp
   }
 
-  
+
   jogavel(i: number): Peca[] {
     const obj: Peca = this.tab[i]
-     
-     if(obj.estado>1)
-       return []
 
-     let tmp: Peca[]=  // os elementos de tmp distam de obj 2 e sao buraco
-     
-    //  if(this.srv.marcavel({obj})
+    if (obj.estado > 1)
+      return []
+// os elementos de tmp distam de obj 2, sao buraco e o vizinho eh peca
+    let tmp: Peca[] =  
       this.tab.filter(
-      (element)=>{
-      const direcao: DataType = this.getDir({num1:element.id,num2:i})
-      const d1: number = this.distancia({p1:obj,p2:element})
-      const d2: number = element.estado
+        (element) => {
+          const direcao: DataType = this.getDir({ num1: element.id, num2: i })
+          const d1: number = this.distancia({ p1: obj, p2: element })
+          const d2: number = element.estado
 
-      const viz: Peca = this.vizinho({dd:direcao,obj:element})
-      return (d1===2) && (d2 === 2) && (viz.estado < 2)//return do filter!!!
+          const viz: Peca = this.vizinho({ dd: direcao, obj: element })
+          return (d1 === 2) && (d2 === 2) && (viz.estado < 2)//return do filter!!!
+        })
+    // console.log('JOGAVEL VDD 1', tmp);
 
-      // return (d1===2) && (d2 === 2)//return do filter!!!
-     })
-      console.log('JOGAVEL VDD 1',tmp);
-          
-    //   tmp = tmp.filter((element)=>{
-    //   const direcao: DataType = this.getDir({num1:i,num2:element.id})
-    //   const viz: Peca = this.vizinho({dd:direcao,obj:element}) 
-    //   // console.log('DD',dd,'VIZ',viz)
-    //   return (viz.estado === 0) //esse return eh do filtro
-    //  }) //retira de tmp os elementos cujo vizinho na direcao de obj eh peca
-    // //  console.log('TMP FIN',tmp)
-    // console.log('JOGAVEL VDD 2 =>',tmp);
-     return tmp //esse return eh de jogavel()
+    return tmp //esse return eh de jogavel()
   }
 
 
-  vizinho({dd,obj}:{dd:DataType,obj:Peca}):Peca{
-    
-    const l: number = this.linha({i:obj.id})
-    const c: number = this.col({i:obj.id})
-    const x: number = dataHandlerFunction(dd,l,c) //isto substitui o switch
-    
+  vizinho({ dd, obj }: { dd: DataType, obj: Peca }): Peca {
+
+    const l: number = this.linha({ i: obj.id })
+    const c: number = this.col({ i: obj.id })
+    const x: number = dataHandlerFunction(dd, l, c) //isto substitui o switch
+
     return this.tab[x]
   }
 
-  desjoga2({dd,obj,i}:{dd:DataType,obj:Peca,i:number}):void{
-    const tmp1:Peca = this.vizinho({dd,obj}) //pode ser direita,esquerda ....
-    const tmp2:Peca = this.vizinho({dd,obj:tmp1}) //vizinho do vizinho
-    this.poepeca({obj:tmp1,i:1-i}) //O terceiro parametro diz se joga ou desjoga
-    this.poepeca({obj:tmp2,i:1-i})
+  desjoga2({ dd, obj, i }: { dd: DataType, obj: Peca, i: number }): void {
+    const tmp1: Peca = this.vizinho({ dd, obj }) //pode ser direita,esquerda ....
+    const tmp2: Peca = this.vizinho({ dd, obj: tmp1 }) //vizinho do vizinho
+    this.poepeca({ obj: tmp1, i: 1 - i }) //O terceiro parametro diz se joga ou desjoga
+    this.poepeca({ obj: tmp2, i: 1 - i })
   }
 
   mova({ l, c, dd }: { l: number, c: number, dd: DataType }): void {
-    
-    const x: number = dataHandlerFunction(dd,l,c)   //objCoord[dd](l, c)
+
+    const x: number = dataHandlerFunction(dd, l, c)   //objCoord[dd](l, c)
 
     this.tab[x].estado = 2  //a direita - buraco
     this.tab[x].url = this.strvazio
   }
 
   geraTab(): void {
+    const tmp: Peca[] = [] //Array de pecas
+
     for (let i = 0; i < 81; i++) {
 
-      const tmp: Peca[] = [] //Array de pecas
+      const obj: Peca = new Peca(i, this.strpeca, 0, this.inTab({ i }) ? 3 : 0, false)
 
-      for (let i = 0; i < 81; i++) {
-
-        const obj: Peca = new Peca(i, this.strpeca, 0, this.inTab({ i }) ? 3 : 0, false)
-
-        tmp.push(obj)
-      }
-      //centro do tabuleiro 
-      tmp[40].url = this.strvazio
-      tmp[40].estado = 2 //buraco
-      this.tab = tmp
+      tmp.push(obj)
     }
-
+    //centro do tabuleiro 
+    tmp[40].url = this.strvazio
+    tmp[40].estado = 2 //buraco
+    this.tab = tmp
   }
 
   linha({ i }: { i: number; }): number {
     return Math.floor(i / 9)
   }
 
-  ln({ obj }: { obj: Peca; }): number {
-    return this.linha({ i: obj.id })
-  }
-
   col({ i }: { i: number; }): number {
     return i % 9
-  }
-
-  colOb({ obj }: { obj: Peca; }): number {
-    return this.col({ i: obj.id })
   }
 
   inTab({ i }: { i: number; }): boolean {
@@ -186,11 +156,11 @@ export class Tabuleiro {
     } else
       if (this.mesmaCol({ num1, num2 })) {
         // {
-          if (num1 < num2)
-            return 'cima'
-          else
-            if (num1 > num2)
-              return 'baixo'
+        if (num1 < num2)
+          return 'cima'
+        else
+          if (num1 > num2)
+            return 'baixo'
         // }
       }
     return 'erro'
@@ -302,9 +272,6 @@ export class Tabuleiro {
     }
     return
   }
-
-
-
 }
 
 
