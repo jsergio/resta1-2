@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { TelaComponent } from './components/template/tela/tela.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule} from '@angular/forms';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card'; 
@@ -29,7 +30,8 @@ import { Pagina } from './components/template/placar/paginas';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    FormsModule
     // Peca
   ],
   providers: [],

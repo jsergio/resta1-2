@@ -1,10 +1,10 @@
 import { Component, Pipe, OnInit  } from '@angular/core';
-// import { mixinDisableRipple } from '@angular/material/core';
 import { JogoService } from '../../services/jogo.service';
 import { Pagina } from './paginas';
 import { DomSanitizer } from '@angular/platform-browser';
-
 @Pipe({name: 'safeHtml'})
+
+
 
 export class Safe {
   constructor(private sanitizer: DomSanitizer){}
@@ -23,7 +23,14 @@ export class Placar2Component implements OnInit{
   pg: Pagina = new Pagina
   
   constructor(public srv:JogoService) { }
+
   
+  templateForm(value: string) {
+    this.pg.atual = Number(value)-1
+    this.srv.menssagem = this.pg.paginas[this.pg.atual]
+    // alert(value);
+  }
+
   ngOnInit(): void {
     // this.pg = new Pagina
     // document..innerHTML =`<button class="tag" onclick="alert('Button Clicked!')">Text</button>`
@@ -33,7 +40,7 @@ export class Placar2Component implements OnInit{
     this.srv.menssagem = tt
   
   }
- 
+  
   pagina():void{
     // const ultima = 2
     // if(this.pg){ 

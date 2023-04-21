@@ -1,32 +1,39 @@
 .conteudo{
     display: flex;
-    /* justify-content: center; */
     text-align: center;
     margin: 10pt;
-    /* margin-top: 30%; */
-    /* flex-wrap: nowrap; */
-    /* justify-self: end; */
-    /* width: 60%; */
-    /* height: 100%; */
-    /* background-color:#cce9cc */
-    color: white
-    ;
+    /* border: 3pt solid yellow; */
+    color: white;
 }
 .orienta{
     display: block;
-    /* flex-flow: column; */
-    /* justify-items: flex-start; */
-    /* -ms-flex-align: start; */
     float: left;
     text-align: left;
-    /* justify-items: flex-start; */
-    /* flex-flow: row; */
-    /* margin-left: 0; */
+    /* border: 3pt solid yellow; */
   }
   .orienta2{
-    display: flex;
+    display: flexbox;
     justify-items: flex-start;
     flex-flow: column;
-    margin-left: 0;
+    /* border: 3pt solid yellow; */
+    margin: 0pt;
+    
   }
-  
+  .prepg{
+    display: flexbox;
+    /* justify-items: flex-start; */
+    /* flex-flow: column; */
+    border: 3pt solid yellow;
+    margin: 0pt;
+  }
+  input[type="radio"] {
+    -ms-transform: scale(1.8); /* IE 9 */
+    -webkit-transform: scale(1.8); /* Chrome, Safari, Opera */
+    transform: scale(1.8);
+}
+  /* input[type=radio] {
+    margin: auto;
+    border: 0px;
+    width: 60%;
+    height: 1.5em;
+} */

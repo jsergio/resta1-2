@@ -1,24 +1,17 @@
-<!-- <div class="conteudo">
-    
-     <div class="orienta">
-        <h2 style="text-align: center">
-           Para Jogar:
-        </h2>
-         <br>
-         <h3>
-            <h3 style="text-align: center">
-            Pecisa de Dois Cliques !
-           </h3>
-                <p>
-                  Passo 1 - Clicar na pe&ccedil;a,
-                 </p>
-                <p>
-                  Passo 2 - Clicar no destino
-                </p>
-    
-        </h3>
-        </div>
-</div> -->
-<!-- {{this.srv.menssagem}} -->
+<div class='prepg'>
+<!-- <form #myForm="ngForm" novalidate>> -->
+<!-- <form name="formpg" action=pgaction() method="get"> -->
+<h2>
+<input type='radio' name='pagina' value='1'(change)='templateForm("1")'  checked>
+Pg1
+<input type='radio' name='pagina' value='2' (change)='templateForm("2")'> 
+pg2
+<input type='radio' name='pagina' value='3' (change)='templateForm("3")'>
+pg3
+<br>
+<br>
+</h2>
+<!-- </form> -->
+</div>
 
-<span  (click)='this.pagina()' [innerHtml] = "this.srv.menssagem | safeHtml"></span>
+<span  [innerHtml] = "this.srv.menssagem | safeHtml"></span>
