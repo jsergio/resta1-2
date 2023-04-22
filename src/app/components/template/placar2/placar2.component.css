@@ -2,38 +2,28 @@
     display: flex;
     text-align: center;
     margin: 10pt;
-    /* border: 3pt solid yellow; */
     color: white;
 }
 .orienta{
     display: block;
     float: left;
     text-align: left;
-    /* border: 3pt solid yellow; */
   }
   .orienta2{
     display: flexbox;
     justify-items: flex-start;
     flex-flow: column;
-    /* border: 3pt solid yellow; */
     margin: 0pt;
-    
   }
   .prepg{
     display: flexbox;
     /* justify-items: flex-start; */
     /* flex-flow: column; */
-    border: 3pt solid yellow;
-    margin: 0pt;
+    /* border: 3pt solid yellow; */
+    /* margin: 0pt; */
   }
   input[type="radio"] {
     -ms-transform: scale(1.8); /* IE 9 */
     -webkit-transform: scale(1.8); /* Chrome, Safari, Opera */
     transform: scale(1.8);
 }
-  /* input[type=radio] {
-    margin: auto;
-    border: 0px;
-    width: 60%;
-    height: 1.5em;
-} */

@@ -43,14 +43,9 @@ export class JogoService {
 
   melhor: number = 44
 
-
-  // pilhamelhor = pp //definido no arquivo aux.ts na pasta model.
   constructor(private stg: StorageService) {
     this.pilhamelhor.cp(pp)
-    // console.log('PILHA MELHOR', this.pilhamelhor.pilha);
-
     this.pilhamelhor.invertePilha()
-    // console.log('PILHA MELHOR INVERTIDA', this.tabuleiro);
   }
 
   tiramarcas(): void {
@@ -75,21 +70,21 @@ export class JogoService {
       this.menssagem += '<h2> Peguei Ultima </h2>'
     }
     else {
-      this.menssagem = '<h2> N&atilde;o tenho Ultim0Jogo gravado</h2>'
+      this.menssagem = '<h2> N&atilde;o tem Ultim0Jogo gravado</h2>'
     }
     return
   }
 
   iniciar(): void {
-    {
-      this.melhor = 20 //numero chutado
-    }
+    this.melhor = 20 //numero chutado
     this.numpecas = 44
     this.dizFase = 'inicio'
     return
   }
 
   iniciatudo(): void {
+    console.log(`ONICIATUDO`);
+    
     this.pilhajogadas.secapilha()
     this.pilhamelhor.secapilha()
     this.pilhasalvas.secapilha()
@@ -138,15 +133,11 @@ export class JogoService {
     this.pilhasalvas.secapilha()
     this.numpecas = 44
     this.terminou = false
-    // this.melhor = this.stg.get('melhorresta')
     this.dizFase = 'inicio'
   }
 
   pegamelhor(): void {
-
-    console.log('PILHA MELHOR ANTES INVERTERA', this.pilhasalvas)
     this.pilhasalvas.cp(this.pilhamelhor.pilha)
-    // console.log('PILHASALVA  FINAL ', this.pilhasalvas)
     this.numpecas = 44
     return
   }
@@ -155,15 +146,11 @@ export class JogoService {
 
     if (this.numpecas < 10) {
       this.terminou = !this.veseterminou()
-      // console.log('ENTROU', this.terminou, 'MELHOR', this.melhor)
       if (this.terminou) {
-        // if(this.numpecas<=this.melhor)
         {
-          // console.log('ENTROU1', this.terminou, 'MELHOR', this.melhor)
           this.dizFase = 'fim'
           this.melhor = this.numpecas
           this.menssagem += `<p>FIM</p>`
-
           this.gravapilha(this.pilhajogadas.pilha)``
         }
       }
@@ -174,10 +161,10 @@ export class JogoService {
     const p1: Pilha = this.escolhepilha(i)[0]//(i===0)?this.pilhajogadas:this.pilhasalvas
     const p2: Pilha = this.escolhepilha(i)[1]  //(i===0)?this.pilhasalvas:this.pilhajogadas
     //as pilhas conteem {objeto,direcao} para desfazer
+    console.log(`'P1`,p1, `\n P2`, p2)
     if (p1.tamanho() == 0)
       return
     else {
-      // let obj: Peca
       const tmp: Info | undefined = p1.pilha.pop()  //Tira de p1
       if (tmp !== undefined)
         p2.pilha.push(tmp)        //e coloca em p2
@@ -276,15 +263,13 @@ export class JogoService {
 
     if (this.tabuleiro.marcavel({ obj })) {
       this.tabuleiro.marca({ obj })
-      // return
     } else {
       this.joga(obj)
-      // return
     }
+    return
   }
 
   gravapilha(p: any): any {
-    // const obj={"melhorjogo",p}
     if (this.stg.remove('UltimoJogo')) {
       console.log('UltimoJogo Removido!')
     }

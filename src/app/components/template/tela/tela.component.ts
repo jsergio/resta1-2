@@ -51,10 +51,11 @@ export class TelaComponent implements OnInit {
       //console.log('Muito Bom',this.srv.pilhajogadas)
     }
     if (e.code === 'KeyR') {
-      // this.srv.menssagem = '<h2>Digitei Digit1</h2>'
       this.srv.pilhajogadas.secapilha()
       this.srv.pilhasalvas.secapilha()
       this.srv.pilhamelhor.secapilha()
+      console.log('CLIQUEI AQUI!!!');
+      
       this.srv.iniciatudo() //reinica Jogo
       //console.log('Muito Bom',this.srv.pilhajogadas)
     }

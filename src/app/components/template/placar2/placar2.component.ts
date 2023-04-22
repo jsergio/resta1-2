@@ -28,33 +28,15 @@ export class Placar2Component implements OnInit{
   templateForm(value: string) {
     this.pg.atual = Number(value)-1
     this.srv.menssagem = this.pg.paginas[this.pg.atual]
-    // alert(value);
   }
 
   ngOnInit(): void {
-    // this.pg = new Pagina
-    // document..innerHTML =`<button class="tag" onclick="alert('Button Clicked!')">Text</button>`
-    
     const tt:string = this.pg.paginas[this.pg.atual]
-
     this.srv.menssagem = tt
-  
   }
   
   pagina():void{
-    // const ultima = 2
-    // if(this.pg){ 
-    // if(this.pg.atual === 0){
-      
       this.pg.proximaPg()
       this.srv.menssagem =  this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
-
-      // this.pg.atual++
     }  
-    //  else {
-      // this.srv.menssagem = `${this.pg.atual}` + this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
-
-    // } 
-    // this.srv.menssagem = `${this.pg.atual}` + this.pg.paginas[this.pg.atual] //this.pg.pegaMenssagem() 
   } 
-// }

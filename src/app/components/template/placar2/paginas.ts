@@ -1,20 +1,3 @@
-const prepg: string = `<div class='prepg'>
-<form name="formpg" action='pgaction()" method="get">
-<h2>
-<input type='radio' name='pagina' value='1' checked onchange="pgaction()">
-<input type='radio' name='pagina' value='1' checked onchange="pgaction()">
-Pg1
-<input type='radio' name='pagina' value='2'onchange="pgaction()"> 
-pg2
-<input type='radio' name='pagina' value='3'onchange="pgaction()">
-pg3
-<br>
-<br>
-</h2>
-</form>
-</div>`   
-
-
 const pg0:string =
 `<div>    
 <div class="orienta">

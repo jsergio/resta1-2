@@ -1,33 +1,9 @@
-// import { OnInit } from '@angular/core';
 import { JogoService } from './../../services/jogo.service';
 import { Component,OnInit } from '@angular/core';
 
 @Component({
    template: '', 
 })
-
-// const pg0: string =
-// `<div class="conteudo">
-//     <h2 style="text-align: center">
-//         <p>
-//            Bem Vindo ao jogo
-//         </p>
-//         <p>
-//             Resta 1
-//         </p>
-//     </h2>
-//     <h2  style="text-align: center">
-//         Restam: ${this.nPecas}   Pe&ccedil;as
-//     </h2>
-//     <h2 *ngIf="this.srv.terminou">
-//         Terminou
-//     </h2>
-// </div>
-// `
-
-
-
-
 
 
 export class Pagina implements OnInit{
@@ -37,7 +13,6 @@ export class Pagina implements OnInit{
   minhaMess = `Testando`
   constructor(public srv:JogoService) {
   this.paginas=[this.poePg()]
-   // this.nPecas = this.srv.numpecas
    }
 poePg(): string{
     const pg0: string =
@@ -68,7 +43,6 @@ antPG(): void{
  }   
 
 ngOnInit(): void {
-   // this.paginas=[pg0,pg1]
    this.nPecas = this.srv.numpecas   
 
    const pg0: string =
